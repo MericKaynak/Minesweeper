@@ -1,0 +1,3 @@
+/home/meric/CLionProjects/AdvancedC/cmake-build-debug/CMakeFiles/AdvancedC.dir
+/home/meric/CLionProjects/AdvancedC/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/meric/CLionProjects/AdvancedC/cmake-build-debug/CMakeFiles/rebuild_cache.dir

@@ -5,9 +5,8 @@
 #define ADVANCEDC_KRANKENHAUS_H
 #include <string>
 #include <vector>
-#include "Patient.h"
-#include "Angestellter.h"
-#include <fmt/core.h>
+#include "Personen/Patient.h"
+#include "Personen/Angestellter.h"
 
 class Krankenhaus {
 private:
@@ -21,7 +20,6 @@ public:
     int deleteAngestellter(int nr);
     int behandeln(int pnr,int anr,double duration);
     int printTermin();
-
 };
 
 

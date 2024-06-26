@@ -152,30 +152,6 @@ main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\AdvancedC.dir\build.make CMakeFiles/AdvancedC.dir/main.cpp.s
 .PHONY : main.cpp.s
 
-src/Adresse.obj: src/Adresse.cpp.obj
-.PHONY : src/Adresse.obj
-
-# target to build an object file
-src/Adresse.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\AdvancedC.dir\build.make CMakeFiles/AdvancedC.dir/src/Adresse.cpp.obj
-.PHONY : src/Adresse.cpp.obj
-
-src/Adresse.i: src/Adresse.cpp.i
-.PHONY : src/Adresse.i
-
-# target to preprocess a source file
-src/Adresse.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\AdvancedC.dir\build.make CMakeFiles/AdvancedC.dir/src/Adresse.cpp.i
-.PHONY : src/Adresse.cpp.i
-
-src/Adresse.s: src/Adresse.cpp.s
-.PHONY : src/Adresse.s
-
-# target to generate assembly for a file
-src/Adresse.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\AdvancedC.dir\build.make CMakeFiles/AdvancedC.dir/src/Adresse.cpp.s
-.PHONY : src/Adresse.cpp.s
-
 src/Behandlungen/Behandlung.obj: src/Behandlungen/Behandlung.cpp.obj
 .PHONY : src/Behandlungen/Behandlung.obj
 
@@ -199,6 +175,30 @@ src/Behandlungen/Behandlung.s: src/Behandlungen/Behandlung.cpp.s
 src/Behandlungen/Behandlung.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\AdvancedC.dir\build.make CMakeFiles/AdvancedC.dir/src/Behandlungen/Behandlung.cpp.s
 .PHONY : src/Behandlungen/Behandlung.cpp.s
+
+src/Datum.obj: src/Datum.cpp.obj
+.PHONY : src/Datum.obj
+
+# target to build an object file
+src/Datum.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\AdvancedC.dir\build.make CMakeFiles/AdvancedC.dir/src/Datum.cpp.obj
+.PHONY : src/Datum.cpp.obj
+
+src/Datum.i: src/Datum.cpp.i
+.PHONY : src/Datum.i
+
+# target to preprocess a source file
+src/Datum.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\AdvancedC.dir\build.make CMakeFiles/AdvancedC.dir/src/Datum.cpp.i
+.PHONY : src/Datum.cpp.i
+
+src/Datum.s: src/Datum.cpp.s
+.PHONY : src/Datum.s
+
+# target to generate assembly for a file
+src/Datum.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\AdvancedC.dir\build.make CMakeFiles/AdvancedC.dir/src/Datum.cpp.s
+.PHONY : src/Datum.cpp.s
 
 src/Krankenhaus.obj: src/Krankenhaus.cpp.obj
 .PHONY : src/Krankenhaus.obj
@@ -332,12 +332,12 @@ help:
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s
-	@echo ... src/Adresse.obj
-	@echo ... src/Adresse.i
-	@echo ... src/Adresse.s
 	@echo ... src/Behandlungen/Behandlung.obj
 	@echo ... src/Behandlungen/Behandlung.i
 	@echo ... src/Behandlungen/Behandlung.s
+	@echo ... src/Datum.obj
+	@echo ... src/Datum.i
+	@echo ... src/Datum.s
 	@echo ... src/Krankenhaus.obj
 	@echo ... src/Krankenhaus.i
 	@echo ... src/Krankenhaus.s

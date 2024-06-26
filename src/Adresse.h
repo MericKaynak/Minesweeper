@@ -5,7 +5,22 @@
 #ifndef ADRESSE_H
 #define ADRESSE_H
 #include <string>
+#include <stdexcept>
+#include <format>
 
+bool isValidPlz(const std::string &str) {
+    if (str.length() != 5) {
+        return false;
+    }
+
+    for (char c : str) {
+        if (c < '0' || c > '9') {
+            return false;
+        }
+    }
+
+    return true;
+}
 
 class Adresse {
 private:
@@ -13,9 +28,22 @@ private:
     std::string _strasse;
     int _nr;
 public:
-    Adresse(std::string plz,std::string strasse,int nr);
-    std::string getAdresse();
-    int setAdresse(std::string plz,std::string strasse,int nr);
+    Adresse(std::string& plz,std::string& strasse,int const nr){
+    if ((isValidPlz(plz)))
+        throw std::invalid_argument("Plz ist nicht Verfuegbar");
+    _plz=std::move(plz);
+    _strasse=std::move(strasse);
+    _nr=nr;
+    }
+    std::string getAdresse() const{
+        return _plz+" "+_strasse+" "+std::to_string(_nr);
+    }
+
+    int setAdresse(std::string& plz,std::string &strasse,int const nr) {
+        _plz=std::move(plz);
+        _strasse=std::move(strasse);
+        _nr=nr;
+    };
 };
 
 

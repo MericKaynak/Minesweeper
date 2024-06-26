@@ -152,24 +152,10 @@ CMakeFiles/AdvancedC.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/AdvancedC.dir/main.cpp.s"
 	C:\Users\meric\AppData\Local\Programs\CLion\bin\mingw\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\meric\CLionProjects\AdvancedCPP\main.cpp -o CMakeFiles\AdvancedC.dir\main.cpp.s
 
-CMakeFiles/AdvancedC.dir/src/Adresse.cpp.obj: CMakeFiles/AdvancedC.dir/flags.make
-CMakeFiles/AdvancedC.dir/src/Adresse.cpp.obj: C:/Users/meric/CLionProjects/AdvancedCPP/src/Adresse.cpp
-CMakeFiles/AdvancedC.dir/src/Adresse.cpp.obj: CMakeFiles/AdvancedC.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\meric\CLionProjects\AdvancedCPP\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/AdvancedC.dir/src/Adresse.cpp.obj"
-	C:\Users\meric\AppData\Local\Programs\CLion\bin\mingw\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/AdvancedC.dir/src/Adresse.cpp.obj -MF CMakeFiles\AdvancedC.dir\src\Adresse.cpp.obj.d -o CMakeFiles\AdvancedC.dir\src\Adresse.cpp.obj -c C:\Users\meric\CLionProjects\AdvancedCPP\src\Adresse.cpp
-
-CMakeFiles/AdvancedC.dir/src/Adresse.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/AdvancedC.dir/src/Adresse.cpp.i"
-	C:\Users\meric\AppData\Local\Programs\CLion\bin\mingw\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\meric\CLionProjects\AdvancedCPP\src\Adresse.cpp > CMakeFiles\AdvancedC.dir\src\Adresse.cpp.i
-
-CMakeFiles/AdvancedC.dir/src/Adresse.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/AdvancedC.dir/src/Adresse.cpp.s"
-	C:\Users\meric\AppData\Local\Programs\CLion\bin\mingw\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\meric\CLionProjects\AdvancedCPP\src\Adresse.cpp -o CMakeFiles\AdvancedC.dir\src\Adresse.cpp.s
-
 CMakeFiles/AdvancedC.dir/src/Behandlungen/Behandlung.cpp.obj: CMakeFiles/AdvancedC.dir/flags.make
 CMakeFiles/AdvancedC.dir/src/Behandlungen/Behandlung.cpp.obj: C:/Users/meric/CLionProjects/AdvancedCPP/src/Behandlungen/Behandlung.cpp
 CMakeFiles/AdvancedC.dir/src/Behandlungen/Behandlung.cpp.obj: CMakeFiles/AdvancedC.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\meric\CLionProjects\AdvancedCPP\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/AdvancedC.dir/src/Behandlungen/Behandlung.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\meric\CLionProjects\AdvancedCPP\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/AdvancedC.dir/src/Behandlungen/Behandlung.cpp.obj"
 	C:\Users\meric\AppData\Local\Programs\CLion\bin\mingw\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/AdvancedC.dir/src/Behandlungen/Behandlung.cpp.obj -MF CMakeFiles\AdvancedC.dir\src\Behandlungen\Behandlung.cpp.obj.d -o CMakeFiles\AdvancedC.dir\src\Behandlungen\Behandlung.cpp.obj -c C:\Users\meric\CLionProjects\AdvancedCPP\src\Behandlungen\Behandlung.cpp
 
 CMakeFiles/AdvancedC.dir/src/Behandlungen/Behandlung.cpp.i: cmake_force
@@ -180,6 +166,20 @@ CMakeFiles/AdvancedC.dir/src/Behandlungen/Behandlung.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/AdvancedC.dir/src/Behandlungen/Behandlung.cpp.s"
 	C:\Users\meric\AppData\Local\Programs\CLion\bin\mingw\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\meric\CLionProjects\AdvancedCPP\src\Behandlungen\Behandlung.cpp -o CMakeFiles\AdvancedC.dir\src\Behandlungen\Behandlung.cpp.s
 
+CMakeFiles/AdvancedC.dir/src/Datum.cpp.obj: CMakeFiles/AdvancedC.dir/flags.make
+CMakeFiles/AdvancedC.dir/src/Datum.cpp.obj: C:/Users/meric/CLionProjects/AdvancedCPP/src/Datum.cpp
+CMakeFiles/AdvancedC.dir/src/Datum.cpp.obj: CMakeFiles/AdvancedC.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\meric\CLionProjects\AdvancedCPP\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/AdvancedC.dir/src/Datum.cpp.obj"
+	C:\Users\meric\AppData\Local\Programs\CLion\bin\mingw\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/AdvancedC.dir/src/Datum.cpp.obj -MF CMakeFiles\AdvancedC.dir\src\Datum.cpp.obj.d -o CMakeFiles\AdvancedC.dir\src\Datum.cpp.obj -c C:\Users\meric\CLionProjects\AdvancedCPP\src\Datum.cpp
+
+CMakeFiles/AdvancedC.dir/src/Datum.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/AdvancedC.dir/src/Datum.cpp.i"
+	C:\Users\meric\AppData\Local\Programs\CLion\bin\mingw\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\meric\CLionProjects\AdvancedCPP\src\Datum.cpp > CMakeFiles\AdvancedC.dir\src\Datum.cpp.i
+
+CMakeFiles/AdvancedC.dir/src/Datum.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/AdvancedC.dir/src/Datum.cpp.s"
+	C:\Users\meric\AppData\Local\Programs\CLion\bin\mingw\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\meric\CLionProjects\AdvancedCPP\src\Datum.cpp -o CMakeFiles\AdvancedC.dir\src\Datum.cpp.s
+
 # Object files for target AdvancedC
 AdvancedC_OBJECTS = \
 "CMakeFiles/AdvancedC.dir/src/main.cpp.obj" \
@@ -188,8 +188,8 @@ AdvancedC_OBJECTS = \
 "CMakeFiles/AdvancedC.dir/src/Personen/Angestellter.cpp.obj" \
 "CMakeFiles/AdvancedC.dir/src/Terminkalender.cpp.obj" \
 "CMakeFiles/AdvancedC.dir/main.cpp.obj" \
-"CMakeFiles/AdvancedC.dir/src/Adresse.cpp.obj" \
-"CMakeFiles/AdvancedC.dir/src/Behandlungen/Behandlung.cpp.obj"
+"CMakeFiles/AdvancedC.dir/src/Behandlungen/Behandlung.cpp.obj" \
+"CMakeFiles/AdvancedC.dir/src/Datum.cpp.obj"
 
 # External object files for target AdvancedC
 AdvancedC_EXTERNAL_OBJECTS =
@@ -200,8 +200,8 @@ AdvancedC.exe: CMakeFiles/AdvancedC.dir/src/Personen/Patient.cpp.obj
 AdvancedC.exe: CMakeFiles/AdvancedC.dir/src/Personen/Angestellter.cpp.obj
 AdvancedC.exe: CMakeFiles/AdvancedC.dir/src/Terminkalender.cpp.obj
 AdvancedC.exe: CMakeFiles/AdvancedC.dir/main.cpp.obj
-AdvancedC.exe: CMakeFiles/AdvancedC.dir/src/Adresse.cpp.obj
 AdvancedC.exe: CMakeFiles/AdvancedC.dir/src/Behandlungen/Behandlung.cpp.obj
+AdvancedC.exe: CMakeFiles/AdvancedC.dir/src/Datum.cpp.obj
 AdvancedC.exe: CMakeFiles/AdvancedC.dir/build.make
 AdvancedC.exe: CMakeFiles/AdvancedC.dir/linkLibs.rsp
 AdvancedC.exe: CMakeFiles/AdvancedC.dir/objects1.rsp

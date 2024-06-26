@@ -16,8 +16,9 @@ add_executable(AdvancedC src/main.cpp
         src/Personen/Patient.h
         src/Krankenhaus.h
         src/Personen/Angestellter.h
-        src/Adresse.cpp
         src/Adresse.h
         src/Behandlungen/Behandlung.cpp
         src/Behandlungen/Behandlung.h
-        src/BehandlungTypen.h)
+        src/Behandlungen/BehandlungTypen.h
+        src/Datum.cpp
+        src/Datum.h)

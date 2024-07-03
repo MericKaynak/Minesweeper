@@ -1,0 +1,5 @@
+# ninja log v5
+1	16	1719411881842064903	CMakeFiles/AdvancedC.dir/src/Terminkalender.cpp.o	15dfffc54945fc4d
+229	266	1719412151800205623	AdvancedC	449a958af902424f
+0	11	1720002936273625769	build.ninja	3bbfb041ea14cad
+1	229	1719412151764203709	CMakeFiles/AdvancedC.dir/main.cpp.o	176536b8ced42ef

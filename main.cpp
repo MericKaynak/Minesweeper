@@ -64,6 +64,60 @@ int angestelltenMenue() {
 }
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
-    return 0;
+    while (1){
+        int auswahl;
+        auswahl = hauptMenu();
+        switch (auswahl) {
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                auswahl= patientenMenue();
+                switch (auswahl) {
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                    case 5:
+                        break;
+                    case 6:
+                        break;
+                }
+                break;
+            case 4:
+                auswahl= angestelltenMenue();
+                switch (auswahl) {
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                    case 5:
+                        break;
+                    case 6:
+                        break;
+                }
+                break;
+            case 5:
+                break;
+            case 6:
+                break;
+            case 7:
+                break;
+            case 8:
+                break;
+            case 9:
+                return 0;
+                break;
+
+        }
+    }
 }

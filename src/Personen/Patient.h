@@ -6,19 +6,24 @@
 #define ADVANCEDC_PATIENT_H
 #include <string>
 #include "../Terminkalender.h"
+#include "../Behandlungen/Behandlung.h"
+#include <memory>
+#include "../Adresse.h"
 
 class Patient {
 private:
    std::string _firstName;
    std::string _lastName;
-   int _gehalt;
    static int nr;
-   Terminkalender _tk;
-   Patient(std::string fn, std::string ln, int g);
+   Adresse _adresses;
+   std::shared_ptr<Behandlung> _behandlungen;
 public:
+    Patient(std::string fn, std::string ln, Adresse a);
     std::string getFirstName();
     std::string getLastName();
-    std::string getName();
+    Adresse getAdresse();
+    std::string getInfo();
+    void addBehandlung(Behandlung * b);
 };
 
 int Patient::nr=1;

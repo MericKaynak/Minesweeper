@@ -1,3 +1,0 @@
-C:/Users/meric/CLionProjects/AdvancedCPP/cmake-build-debug/CMakeFiles/AdvancedC.dir
-C:/Users/meric/CLionProjects/AdvancedCPP/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/meric/CLionProjects/AdvancedCPP/cmake-build-debug/CMakeFiles/rebuild_cache.dir

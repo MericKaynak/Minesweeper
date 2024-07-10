@@ -55,6 +55,24 @@ build CMakeFiles/AdvancedC.dir/main.cpp.o: CXX_COMPILER__AdvancedC_unscanned_Deb
   OBJECT_DIR = CMakeFiles/AdvancedC.dir
   OBJECT_FILE_DIR = CMakeFiles/AdvancedC.dir
 
+build CMakeFiles/AdvancedC.dir/src/game.cpp.o: CXX_COMPILER__AdvancedC_unscanned_Debug /home/meric/CLionProjects/AdvancedC/src/game.cpp || cmake_object_order_depends_target_AdvancedC
+  DEP_FILE = CMakeFiles/AdvancedC.dir/src/game.cpp.o.d
+  FLAGS = -g -std=gnu++23 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles/AdvancedC.dir
+  OBJECT_FILE_DIR = CMakeFiles/AdvancedC.dir/src
+
+build CMakeFiles/AdvancedC.dir/src/paddle.cpp.o: CXX_COMPILER__AdvancedC_unscanned_Debug /home/meric/CLionProjects/AdvancedC/src/paddle.cpp || cmake_object_order_depends_target_AdvancedC
+  DEP_FILE = CMakeFiles/AdvancedC.dir/src/paddle.cpp.o.d
+  FLAGS = -g -std=gnu++23 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles/AdvancedC.dir
+  OBJECT_FILE_DIR = CMakeFiles/AdvancedC.dir/src
+
+build CMakeFiles/AdvancedC.dir/src/ball.cpp.o: CXX_COMPILER__AdvancedC_unscanned_Debug /home/meric/CLionProjects/AdvancedC/src/ball.cpp || cmake_object_order_depends_target_AdvancedC
+  DEP_FILE = CMakeFiles/AdvancedC.dir/src/ball.cpp.o.d
+  FLAGS = -g -std=gnu++23 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles/AdvancedC.dir
+  OBJECT_FILE_DIR = CMakeFiles/AdvancedC.dir/src
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target AdvancedC
@@ -63,7 +81,7 @@ build CMakeFiles/AdvancedC.dir/main.cpp.o: CXX_COMPILER__AdvancedC_unscanned_Deb
 #############################################
 # Link the executable AdvancedC
 
-build AdvancedC: CXX_EXECUTABLE_LINKER__AdvancedC_Debug CMakeFiles/AdvancedC.dir/main.cpp.o
+build AdvancedC: CXX_EXECUTABLE_LINKER__AdvancedC_Debug CMakeFiles/AdvancedC.dir/main.cpp.o CMakeFiles/AdvancedC.dir/src/game.cpp.o CMakeFiles/AdvancedC.dir/src/paddle.cpp.o CMakeFiles/AdvancedC.dir/src/ball.cpp.o
   FLAGS = -g
   OBJECT_DIR = CMakeFiles/AdvancedC.dir
   POST_BUILD = :

@@ -20,4 +20,12 @@ add_executable(AdvancedC
        # src/Behandlungen/Behandlung.cpp
        # src/Behandlungen/BehandlungTypen.h
        # src/Datum.h
-        main.cpp)
+        main.cpp
+        src/game.cpp
+        src/game.h
+        src/paddle.cpp
+        src/paddle.h
+        src/ball.cpp
+        src/ball.h
+        src/postion.h
+        src/drawable.h)

@@ -14,6 +14,7 @@ public:
 
     void reset();
     int reveal(int x, int y);
+    bool isRevealed(int x, int y);
     bool isGameOver() const noexcept { return gameOver; }
 
     const std::vector<std::vector<int>>& getBoard() const noexcept { return board; }

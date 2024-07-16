@@ -15,7 +15,7 @@ void GameRenderer::start() {
 
     game = new Game(numRows,numCols,10);
     auto css_provider = Gtk::CssProvider::create();
-    css_provider->load_from_data("button { font-size: 30px; }");
+    css_provider->load_from_data("button { font-size: 30px; background: white}");
 
     for (int row = 0; row < numRows; ++row) {
         for (int col = 0; col < numCols; ++col) {
@@ -24,9 +24,15 @@ void GameRenderer::start() {
             grid->attach(*button, col, row, 1, 1);
             buttons[row][col] = button;
             button->get_style_context()->add_provider(css_provider, GTK_STYLE_PROVIDER_PRIORITY_USER);
-            button->signal_clicked().connect([this, row, col]() {
-                on_cell_clicked(col, row);
-            });
+
+            button->signal_button_press_event().connect([this, row, col](GdkEventButton* event) {
+                if (event->button == 3) {
+                    on_right_click(row, col);
+                }   else {
+                   on_left_click(row, col);
+               }
+             return true;
+             });
         }
     }
     window.add(*grid);
@@ -116,10 +122,15 @@ void GameRenderer::firstTryFill(int startX, int startY) {
 }
 
 void GameRenderer::style_button(int x, int y) {
-    auto button = get_button(y, x);
+    auto button = get_button(x, y);
     int value=game->reveal(x,y);
     auto css_provider = Gtk::CssProvider::create();
     css_provider->load_from_data("button {background: lightgrey}");
+
+    if (!game->isRevealed(x,y)) {
+        button->set_always_show_image(false);
+    }
+
 
     if (value==0 and firstTry) {
         firstTryFill(x,y);
@@ -154,7 +165,7 @@ void GameRenderer::style_button(int x, int y) {
 }
 
 
-void GameRenderer::on_cell_clicked(int x, int y) {
+void GameRenderer::on_left_click(int x, int y) {
     style_button(x,y);
     if (game->isGameOver()) {
         for (int row=0;row<game->height;row++) {
@@ -162,6 +173,34 @@ void GameRenderer::on_cell_clicked(int x, int y) {
                 style_button(row,col);
             }
         }
+    }
+}
+
+void GameRenderer::on_right_click(int x, int y) {
+    if (game->isRevealed(x,y)) return;
+    auto button=get_button(x,y);
+    auto css_provider = Gtk::CssProvider::create();
+
+    if (button->get_image()) {
+        css_provider->load_from_data("button {background: white}");
+        button->set_always_show_image(false);
+        button->get_style_context()->add_provider(css_provider, GTK_STYLE_PROVIDER_PRIORITY_USER);
+        return;
+    }
+
+
+    Glib::RefPtr<Gdk::Pixbuf> originalPixbuf = Gdk::Pixbuf::create_from_file("/mnt/c/Users/meric/CLionProjects/AdvancedCPP/src/assets/flag.png");
+    int width = cellWidth-10;
+    int height = cellHeight-10;
+    Glib::RefPtr<Gdk::Pixbuf> scaledPixbuf = originalPixbuf->scale_simple(width, height, Gdk::INTERP_BILINEAR);
+
+    css_provider->load_from_data("button {background: lightgrey}");
+    if (scaledPixbuf) {
+        Gtk::Image* image = Gtk::manage(new Gtk::Image(scaledPixbuf));
+        button->set_image(*image);
+        button->set_always_show_image(true);
+        button->set_label("");
+        button->get_style_context()->add_provider(css_provider, GTK_STYLE_PROVIDER_PRIORITY_USER);
     }
 }
 

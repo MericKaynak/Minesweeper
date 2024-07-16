@@ -17,6 +17,21 @@ void Game::reset() {
     gameOver = false;
 }
 
+bool Game::isRevealed(int x, int y) {
+    return reveal_board[x][y];
+}
+
+bool Game::isWon() {
+    for (int x=0; x<width;x++)
+        for (int y=0; y<height;y++)
+            if ((reveal_board[x][y]&& board[x][y]==IS_BOMB)||
+                (not reveal_board[x][y]and board[x][y]!=IS_BOMB))
+                return false;
+    return true;
+}
+
+
+
 int Game::reveal(int x, int y) {
     if (x < 0 || x >= width || y < 0 || y >= height) return -1;
     if (board[y][x]==IS_BOMB)

@@ -23,7 +23,8 @@ private:
     void style_button(int x, int y);
     void firstTryFill(int x, int y);
     bool on_key_press_event(GdkEventKey* event) override;
-    void on_cell_clicked(int x, int y);
+    void on_left_click(int x, int y);
+    void on_right_click(int x, int y);
     void update_visibility(); // Neue Methode für die Sichtbarkeit der Game Over Nachrichten
     void show_game_over();    // Methode zum Anzeigen des Game Over Overlays
     void hide_game_over();    // Methode zum Verstecken des Game Over Overlays

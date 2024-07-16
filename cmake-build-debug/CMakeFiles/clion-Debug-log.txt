@@ -1,4 +1,4 @@
-/home/meric/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/home/meric/.local/share/JetBrains/Toolbox/apps/clion/bin/ninja/linux/x64/ninja -G Ninja -S /home/meric/CLionProjects/AdvancedC -B /home/meric/CLionProjects/AdvancedC/cmake-build-debug
--- Configuring done (0.0s)
--- Generating done (0.0s)
--- Build files have been written to: /home/meric/CLionProjects/AdvancedC/cmake-build-debug
+C:\WINDOWS\system32\wsl.exe --distribution Ubuntu --exec /mnt/c/Users/meric/AppData/Local/Programs/CLion/bin/ttyfix /bin/bash -c "export CLION_IDE=TRUE && export CMAKE_COLOR_DIAGNOSTICS=ON && export JETBRAINS_IDE=TRUE && cd /mnt/c/Users/meric/CLionProjects/AdvancedCPP/cmake-build-debug && /usr/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G 'CodeBlocks - Unix Makefiles' -S /mnt/c/Users/meric/CLionProjects/AdvancedCPP -B /mnt/c/Users/meric/CLionProjects/AdvancedCPP/cmake-build-debug"
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /mnt/c/Users/meric/CLionProjects/AdvancedCPP/cmake-build-debug

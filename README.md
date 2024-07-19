@@ -1,0 +1,3 @@
+## Minesweeper
+
+### Wichtig vorm starten:

@@ -1,24 +1,56 @@
 #include "GameRenderer.hpp"
 #include <iostream>
+#include "style.h"
 
-GameRenderer::GameRenderer(Gtk::Window& win) : window(win), buttons(numRows, std::vector<Gtk::Button*>(numCols, nullptr)), grid(nullptr) {
+GameRenderer::GameRenderer(Gtk::Window& win) : window(win), grid(nullptr), revealComplete(false), flagRestartOK(true) {
+    numRows = 0;
+    numCols = 0;
+    numMines = 0;
     window.signal_key_press_event().connect(sigc::mem_fun(*this, &GameRenderer::on_key_press_event));
+    dialog = new Gtk::Dialog("Select Difficulty", window);
+
+    auto add_button = [this](const std::string& label, int rows, int cols, int bombs) {
+        Gtk::Button* button = Gtk::manage(new Gtk::Button(label));
+        button->signal_clicked().connect(sigc::bind(sigc::mem_fun(*this, &GameRenderer::level_selected), rows, cols, bombs));
+        dialog->get_content_area()->pack_start(*button);
+    };
+
+    add_button("Level 1 (8x8 with 8 bombs)", 8, 8, 8);
+    add_button("Level 2 (12x12 with 25 bombs)", 12, 12, 25);
+    add_button("Level 3 (16x16 with 38 bombs)", 16, 16, 38);
+    add_button("Level 4 (22x22 with 90 bombs)", 22, 22, 90);
+
+    dialog->get_content_area()->show_all();
+}
+
+void GameRenderer::level_selected(int rows, int cols, int mines) {
+    dialog->hide();
+    window.remove();
+    numRows = rows;
+    numCols = cols;
+    numMines = mines;
+    buttons.resize(numRows, std::vector<Gtk::Button*>(numCols, nullptr));
+    this->startGame();
 }
 
 void GameRenderer::start() {
-    window.set_size_request(500, 500);
-    firstTry=true;
+    dialog->run();
+    dialog->hide();
+}
+
+void GameRenderer::startGame() {
+    window.set_size_request(cellWidth * numCols, cellHeight * numRows);
 
     grid = Gtk::manage(new Gtk::Grid());
     grid->set_row_homogeneous(true);
     grid->set_column_homogeneous(true);
 
-    game = new Game(numRows,numCols,10);
+    game = new Game(numRows, numCols, numMines);
     auto css_provider = Gtk::CssProvider::create();
-    css_provider->load_from_data("button { font-size: 30px; background: white}");
+    css_provider->load_from_data("button { font-size: 30px; background: white;}");
 
-    for (int row = 0; row < numRows; ++row) {
-        for (int col = 0; col < numCols; ++col) {
+    for (int row = 0; row < numRows; row++) {
+        for (int col = 0; col < numCols; col++) {
             Gtk::Button* button = Gtk::manage(new Gtk::Button());
             button->set_size_request(cellWidth, cellHeight);
             grid->attach(*button, col, row, 1, 1);
@@ -28,11 +60,11 @@ void GameRenderer::start() {
             button->signal_button_press_event().connect([this, row, col](GdkEventButton* event) {
                 if (event->button == 3) {
                     on_right_click(row, col);
-                }   else {
-                   on_left_click(row, col);
-               }
-             return true;
-             });
+                } else {
+                    on_left_click(row, col);
+                }
+                return true;
+            });
         }
     }
     window.add(*grid);
@@ -40,6 +72,8 @@ void GameRenderer::start() {
 }
 
 void GameRenderer::restart() {
+    if(!flagRestartOK) return;
+
     for (int row = 0; row < numRows; ++row) {
         for (int col = 0; col < numCols; ++col) {
             if (buttons[row][col]) {
@@ -47,28 +81,36 @@ void GameRenderer::restart() {
             }
         }
     }
-    buttons.clear();
-    buttons.resize(numRows, std::vector<Gtk::Button*>(numCols, nullptr));
 
     window.remove();
+    delete grid;
+    grid = nullptr;
 
+    buttons.clear();
+    game = nullptr;
 
     start();
 }
 
-GameRenderer::~GameRenderer() {}
+GameRenderer::~GameRenderer() {
+    delete game;
+    delete dialog;
+    delete grid;
+}
 
 void GameRenderer::render() {
     queue_draw();
 }
 
 bool GameRenderer::on_draw(const Cairo::RefPtr<Cairo::Context>& cr) {
-    Gtk::Allocation allocation = get_allocation();
+    const Gtk::Allocation allocation = get_allocation();
     const int width = allocation.get_width();
     const int height = allocation.get_height();
 
     cellWidth = width / numCols;
-    cellHeight = height/ numRows;
+    cellHeight = height / numRows;
+    window.remove();
+    window.add(*grid);
     return true;
 }
 
@@ -77,77 +119,47 @@ void GameRenderer::on_size_allocate(Gtk::Allocation& allocation) {
     queue_draw();
 }
 
-void GameRenderer::firstTryFill(int startX, int startY) {
+void GameRenderer::checkNeighbors(int x, int y) {
+    if (x < 0 || x >= game->width || y < 0 || y >= game->height) return;
+    if (game->reveal_board[x][y]) return;
+    if (game->getFieldValue(x, y) != 0) return;
 
-    // Ein einfache rekursive Funktion hat zum stackoverflow gefuehrt deswegen der komplexe ansatz
-
-    if (startX < 0 || startX >= game->width || startY < 0 || startY >= game->height) return;
-
-    std::stack<std::pair<int, int>> stack;
-    std::vector<std::pair<int, int>> positions_to_update;
-
-    stack.push({startX, startY});
-
-    while (!stack.empty()) {
-        auto [x, y] = stack.top();
-        stack.pop();
-
-        if (x < 0 || x >= game->width || y < 0 || y >= game->height) continue;
-        if (game->reveal_board[x][y] == true) continue;
-
-        int value = game->reveal(x, y);
-        if (value != 0) continue;
-
-        game->reveal_board[x][y] = true;
-
-        positions_to_update.push_back({x, y});
-
-
-        stack.push({x + 1, y});
-        stack.push({x, y + 1});
-        stack.push({x - 1, y});
-        stack.push({x, y - 1});
-    }
+    game->reveal_board[x][y] = true;
 
     auto css_provider = Gtk::CssProvider::create();
     css_provider->load_from_data("button {background: lightgrey}");
+    auto button = get_button(x, y);
+    button->get_style_context()->add_provider(css_provider, GTK_STYLE_PROVIDER_PRIORITY_USER);
+    button->set_sensitive(false);
 
-    for (const auto& pos : positions_to_update) {
-        int x = pos.first;
-        int y = pos.second;
-        auto button = get_button(y, x);
-        button->get_style_context()->add_provider(css_provider, GTK_STYLE_PROVIDER_PRIORITY_USER);
-        button->set_sensitive(false);
-    }
+    checkNeighbors(x, y - 1);
+    checkNeighbors(x, y + 1);
+    checkNeighbors(x - 1, y);
+    checkNeighbors(x + 1, y);
 }
 
 void GameRenderer::style_button(int x, int y) {
     auto button = get_button(x, y);
-    int value=game->reveal(x,y);
+    int value = game->getFieldValue(x, y);
     auto css_provider = Gtk::CssProvider::create();
     css_provider->load_from_data("button {background: lightgrey}");
 
-    if (!game->isRevealed(x,y)) {
+    if (!game->isRevealed(x, y)) {
         button->set_always_show_image(false);
     }
 
+    button->set_always_show_image(false);
 
-    if (value==0 and firstTry) {
-        firstTryFill(x,y);
-    }
-    else if (value==0) {
-        button->get_style_context()->add_provider(css_provider, GTK_STYLE_PROVIDER_PRIORITY_USER);
-        button->set_sensitive(false);
-
-    } else if(value==game->IS_BOMB) {
-        game->gameOver=true;
+    if (value == 0) {
+        checkNeighbors(x, y);
+    } else if (value == game->IS_A_BOMB) {
         Glib::RefPtr<Gdk::Pixbuf> originalPixbuf = Gdk::Pixbuf::create_from_file("/mnt/c/Users/meric/CLionProjects/AdvancedCPP/src/assets/bomb.png");
-        int width = cellWidth-10;
-        int height = cellHeight-10;
+        int width = cellWidth - 10;
+        int height = cellHeight - 10;
         Glib::RefPtr<Gdk::Pixbuf> scaledPixbuf = originalPixbuf->scale_simple(width, height, Gdk::INTERP_BILINEAR);
-
         if (scaledPixbuf) {
             Gtk::Image* image = Gtk::manage(new Gtk::Image(scaledPixbuf));
+            game->gameOver = true;
             button->set_image(*image);
             button->set_always_show_image(true);
             button->set_label("");
@@ -156,42 +168,72 @@ void GameRenderer::style_button(int x, int y) {
         }
     } else {
         button->set_label(std::to_string(value));
-        std::string color=Style::getColor(value);
-        css_provider->load_from_data("button { color: "+color+"; font-size: 30px; background: lightgrey}");
+        std::string color = Style::getColor(value);
+        css_provider->load_from_data("button { color: " + color + "; background: lightgrey}");
         button->get_style_context()->add_provider(css_provider, GTK_STYLE_PROVIDER_PRIORITY_USER);
         button->set_sensitive(false);
     }
-    firstTry=false;
+    game->reveal_board[x][y] = true;
 }
 
-
 void GameRenderer::on_left_click(int x, int y) {
-    style_button(x,y);
-    if (game->isGameOver()) {
-        for (int row=0;row<game->height;row++) {
-            for (int col=0;col<game->width;col++) {
-                style_button(row,col);
+    style_button(x, y);
+
+    if (game->isWon() || game->isGameOver()) {
+        revealComplete = true;
+        flagRestartOK = false;
+        Glib::signal_timeout().connect(sigc::mem_fun(*this, &GameRenderer::reveal_next_cell), 30);
+
+        Gtk::Label* status_label = Gtk::manage(new Gtk::Label(game->isWon() ? "You won!" : "Game Over!"));
+        std::string status = game->isWon() ? "You won!" : "Game Over!";
+        status_label->set_markup("<span font='24' weight='bold'>" + status + "</span>");
+        status_label->set_justify(Gtk::JUSTIFY_CENTER);
+        status_label->set_valign(Gtk::ALIGN_CENTER);
+        status_label->set_halign(Gtk::ALIGN_CENTER);
+
+        Gtk::Label* retry_label = Gtk::manage(new Gtk::Label("Press R for retry"));
+        retry_label->set_justify(Gtk::JUSTIFY_CENTER);
+        retry_label->set_valign(Gtk::ALIGN_CENTER);
+        retry_label->set_halign(Gtk::ALIGN_CENTER);
+
+        Gtk::Box* box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
+        box->set_valign(Gtk::ALIGN_CENTER);
+        box->set_halign(Gtk::ALIGN_CENTER);
+        box->pack_start(*status_label, Gtk::PACK_SHRINK);
+        box->pack_start(*retry_label, Gtk::PACK_SHRINK);
+
+        Gtk::EventBox* event_box = Gtk::manage(new Gtk::EventBox());
+        event_box->add(*box);
+        event_box->set_visible_window(false);
+
+        Glib::signal_timeout().connect([this, event_box]() -> bool {
+            if (this->all_cells_revealed()) {
+                flagRestartOK = true;
+                this->window.remove();
+                this->window.add(*event_box);
+                this->window.show_all_children();
+                return false;
             }
-        }
+            return true;
+        }, 75);
     }
 }
 
 void GameRenderer::on_right_click(int x, int y) {
-    if (game->isRevealed(x,y)) return;
-    auto button=get_button(x,y);
+    if (game->isRevealed(x, y)) return;
+    auto button = get_button(x, y);
     auto css_provider = Gtk::CssProvider::create();
 
-    if (button->get_image()) {
+    if (button->get_always_show_image()) {
         css_provider->load_from_data("button {background: white}");
         button->set_always_show_image(false);
         button->get_style_context()->add_provider(css_provider, GTK_STYLE_PROVIDER_PRIORITY_USER);
         return;
     }
 
-
     Glib::RefPtr<Gdk::Pixbuf> originalPixbuf = Gdk::Pixbuf::create_from_file("/mnt/c/Users/meric/CLionProjects/AdvancedCPP/src/assets/flag.png");
-    int width = cellWidth-10;
-    int height = cellHeight-10;
+    int width = cellWidth - 10;
+    int height = cellHeight - 10;
     Glib::RefPtr<Gdk::Pixbuf> scaledPixbuf = originalPixbuf->scale_simple(width, height, Gdk::INTERP_BILINEAR);
 
     css_provider->load_from_data("button {background: lightgrey}");
@@ -216,5 +258,42 @@ bool GameRenderer::on_key_press_event(GdkEventKey* event) {
         restart();
         return true;
     }
+    if (event->keyval == GDK_KEY_Escape) {
+        // Do nothing on Escape key
+        return true;
+    }
     return false;
+}
+
+bool GameRenderer::reveal_next_cell() {
+    static int current_row = 0;
+    static int current_col = 0;
+
+    if (revealComplete) {
+        if (current_row < numRows) {
+            style_button(current_row, current_col);
+            current_col++;
+            if (current_col >= numCols) {
+                current_col = 0;
+                current_row++;
+            }
+            return true;
+        }
+        current_row = 0;
+        current_col = 0;
+        revealComplete = false;
+        return false;
+    }
+    return false;
+}
+
+bool GameRenderer::all_cells_revealed() {
+    for (int row = 0; row < numRows; row++) {
+        for (int col = 0; col < numCols; col++) {
+            if (!game->isRevealed(row, col)) {
+                return false;
+            }
+        }
+    }
+    return true;
 }

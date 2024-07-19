@@ -1489,10 +1489,4 @@ CMakeFiles/AdvancedC.dir/main.cpp.o: \
  /usr/include/gtkmm-3.0/gtkmm/uimanager.h \
  /usr/include/gtkmm-3.0/gtkmm/viewport.h \
  /usr/include/gtkmm-3.0/gtkmm/volumebutton.h \
- /mnt/c/Users/meric/CLionProjects/AdvancedCPP/src/Game.hpp \
- /usr/include/c++/11/random /usr/include/c++/11/bits/random.h \
- /usr/include/x86_64-linux-gnu/c++/11/bits/opt_random.h \
- /usr/include/c++/11/bits/random.tcc /usr/include/c++/11/numeric \
- /usr/include/c++/11/bits/stl_numeric.h \
- /usr/include/c++/11/pstl/glue_numeric_defs.h \
- /mnt/c/Users/meric/CLionProjects/AdvancedCPP/src/style.h
+ /mnt/c/Users/meric/CLionProjects/AdvancedCPP/src/Game.hpp

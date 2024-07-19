@@ -1,5 +1,7 @@
 #include "Game.hpp"
 #include <algorithm>
+#include <iostream>
+#include <random>
 
 Game::Game(int width, int height, int mines)
     : width(width), height(height), mines(mines), board(height, std::vector<int>(width, 0)) {
@@ -24,19 +26,20 @@ bool Game::isRevealed(int x, int y) {
 bool Game::isWon() {
     for (int x=0; x<width;x++)
         for (int y=0; y<height;y++)
-            if ((reveal_board[x][y]&& board[x][y]==IS_BOMB)||
-                (not reveal_board[x][y]and board[x][y]!=IS_BOMB))
+            if ((reveal_board[y][x]&& board[x][y]==IS_A_BOMB)||
+                (not reveal_board[y][x]and board[x][y]!=IS_A_BOMB)) {
                 return false;
+            }
+    std::cout << "Game is Over";
     return true;
 }
 
 
 
-int Game::reveal(int x, int y) {
+int Game::getFieldValue(int x, int y) {
     if (x < 0 || x >= width || y < 0 || y >= height) return -1;
-    if (board[y][x]==IS_BOMB)
+    if (board[y][x]==IS_A_BOMB)
         gameOver==true;
-    reveal_board[y][x]=true;
     return board[y][x];
 }
 
@@ -51,7 +54,7 @@ void Game::placeMines() {
         int x = index % width;
         int y = index / width;
         if (board[y][x] == 0) {
-            board[y][x] = IS_BOMB;
+            board[y][x] = IS_A_BOMB;
             ++placedMines;
         }
     }
@@ -66,13 +69,13 @@ void Game::calculateAdjacentMines() {
 
     for (int y = 0; y < height; ++y) {
         for (int x = 0; x < width; ++x) {
-            if (board[y][x] == IS_BOMB) continue;
+            if (board[y][x] == IS_A_BOMB) continue;
 
             int adjacentMines = 0;
             for (const auto& [dx, dy] : directions) {
                 int nx = x + dx;
                 int ny = y + dy;
-                if (nx >= 0 && nx < width && ny >= 0 && ny < height && board[ny][nx] == IS_BOMB) {
+                if (nx >= 0 && nx < width && ny >= 0 && ny < height && board[ny][nx] == IS_A_BOMB) {
                     ++adjacentMines;
                 }
             }

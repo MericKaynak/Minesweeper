@@ -23,6 +23,7 @@ GameRenderer::GameRenderer(Gtk::Window& win) : window(win), grid(nullptr), revea
     dialog->get_content_area()->show_all();
 }
 
+
 void GameRenderer::level_selected(int rows, int cols, int mines) {
     dialog->hide();
     window.remove();
@@ -38,6 +39,9 @@ void GameRenderer::start() {
     dialog->hide();
 }
 
+
+// erstellen eines gridlayouts mit buttons
+// jeder button entpricht eine spielfeld
 void GameRenderer::startGame() {
     window.set_size_request(cellWidth * numCols, cellHeight * numRows);
 
@@ -48,7 +52,7 @@ void GameRenderer::startGame() {
     game = new Game(numRows, numCols, numMines);
     auto css_provider = Gtk::CssProvider::create();
     css_provider->load_from_data("button { font-size: 30px; background: white;}");
-
+    
     for (int row = 0; row < numRows; row++) {
         for (int col = 0; col < numCols; col++) {
             Gtk::Button* button = Gtk::manage(new Gtk::Button());
@@ -150,9 +154,11 @@ void GameRenderer::style_button(int x, int y) {
 
     button->set_always_show_image(false);
 
+    // 0 bedeutet das keine bombe in der naehe ist zum erleichtern des spiel wir die region aufgedeckt welche auch die bedingung erfuellt
     if (value == 0) {
         checkNeighbors(x, y);
     } else if (value == game->IS_A_BOMB) {
+        // laden eines Bomben images
         Glib::RefPtr<Gdk::Pixbuf> originalPixbuf = Gdk::Pixbuf::create_from_file("./assets/bomb.png");
         //Glib::RefPtr<Gdk::Pixbuf> originalPixbuf = Gdk::Pixbuf::create_from_file("/mnt/c/Users/meric/CLionProjects/AdvancedCPP/src/assets/bomb.png");
         int width = cellWidth - 10;
@@ -168,6 +174,7 @@ void GameRenderer::style_button(int x, int y) {
             button->set_sensitive(false);
         }
     } else {
+        // weder Bombe noch leer das heisst bombe in der naehe, jeder wert hat eine andere farbe
         button->set_label(std::to_string(value));
         std::string color = Style::getColor(value);
         css_provider->load_from_data("button { color: " + color + "; background: lightgrey}");
@@ -177,14 +184,17 @@ void GameRenderer::style_button(int x, int y) {
     game->reveal_board[x][y] = true;
 }
 
+// reveal eines feldes
 void GameRenderer::on_left_click(int x, int y) {
     style_button(x, y);
 
     if (game->isWon() || game->isGameOver()) {
         revealComplete = true;
         flagRestartOK = false;
-        Glib::signal_timeout().connect(sigc::mem_fun(*this, &GameRenderer::reveal_next_cell), 30);
 
+        // reveale alle Felder in einem 30ms intervall, nativer ansatz mit sleep() ist inkompatibel
+        Glib::signal_timeout().connect(sigc::mem_fun(*this, &GameRenderer::reveal_next_cell), 30);
+        
         Gtk::Label* status_label = Gtk::manage(new Gtk::Label(game->isWon() ? "You won!" : "Game Over!"));
         std::string status = game->isWon() ? "You won!" : "Game Over!";
         status_label->set_markup("<span font='24' weight='bold'>" + status + "</span>");
@@ -207,6 +217,7 @@ void GameRenderer::on_left_click(int x, int y) {
         event_box->add(*box);
         event_box->set_visible_window(false);
 
+        // sorgt dafuer dass erst nach dem alles revealed wurde das Frame mit dem Status ausgegeben wird
         Glib::signal_timeout().connect([this, event_box]() -> bool {
             if (this->all_cells_revealed()) {
                 flagRestartOK = true;
@@ -220,6 +231,7 @@ void GameRenderer::on_left_click(int x, int y) {
     }
 }
 
+// ermoeglicht felder mit Flaggen zu makieren
 void GameRenderer::on_right_click(int x, int y) {
     if (game->isRevealed(x, y)) return;
     auto button = get_button(x, y);

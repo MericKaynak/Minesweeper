@@ -4,12 +4,12 @@
 #include <gtkmm.h>
 #include <vector>
 #include "Game.hpp"
-#include <array>
+#include <memory>
 
 class GameRenderer : public Gtk::DrawingArea {
 public:
-    GameRenderer(Gtk::Window& window);
-    virtual ~GameRenderer();
+    GameRenderer(std::shared_ptr<Gtk::Window> window);
+    ~GameRenderer() override;
 
     void render();
     Gtk::Button* get_button(int row, int col);
@@ -33,9 +33,9 @@ private:
    [[nodiscard]] bool reveal_next_cell();
    [[nodiscard]] bool all_cells_revealed();
 
-    Gtk::Dialog* dialog;
-    Game* game{};
-    Gtk::Window& window;
+    std::unique_ptr<Gtk::Dialog> dialog;
+    std::unique_ptr<Game> game;
+    std::shared_ptr<Gtk::Window> window;
     Gtk::Grid* grid;
     int numRows{};
     int numCols{};

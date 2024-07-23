@@ -2,12 +2,12 @@
 #include <iostream>
 #include "style.h"
 
-GameRenderer::GameRenderer(Gtk::Window& win) : window(win), grid(nullptr), revealComplete(false), flagRestartOK(true) {
+GameRenderer::GameRenderer(std::shared_ptr<Gtk::Window>  win) : window(win), grid(nullptr), revealComplete(false), flagRestartOK(true) {
     numRows = 0;
     numCols = 0;
     numMines = 0;
-    window.signal_key_press_event().connect(sigc::mem_fun(*this, &GameRenderer::on_key_press_event));
-    dialog = new Gtk::Dialog("Select Difficulty", window);
+    window->signal_key_press_event().connect(sigc::mem_fun(*this, &GameRenderer::on_key_press_event));
+    dialog = std::make_unique<Gtk::Dialog>("Select Difficulty", &(*win));
 
     auto add_button = [this](const std::string& label, int rows, int cols, int bombs) {
         Gtk::Button* button = Gtk::manage(new Gtk::Button(label));
@@ -26,7 +26,7 @@ GameRenderer::GameRenderer(Gtk::Window& win) : window(win), grid(nullptr), revea
 
 void GameRenderer::level_selected(int rows, int cols, int mines) {
     dialog->hide();
-    window.remove();
+    window->remove();
     numRows = rows;
     numCols = cols;
     numMines = mines;
@@ -43,13 +43,12 @@ void GameRenderer::start() {
 // erstellen eines gridlayouts mit buttons
 // jeder button entpricht eine spielfeld
 void GameRenderer::startGame() {
-    window.set_size_request(cellWidth * numCols, cellHeight * numRows);
-
+    window->set_size_request(cellWidth * numCols, cellHeight * numRows);
     grid = Gtk::manage(new Gtk::Grid());
     grid->set_row_homogeneous(true);
     grid->set_column_homogeneous(true);
 
-    game = new Game(numRows, numCols, numMines);
+    game = std::make_unique<Game>(numRows, numCols, numMines);
     auto css_provider = Gtk::CssProvider::create();
     css_provider->load_from_data("button { font-size: 30px; background: white;}");
     
@@ -71,8 +70,8 @@ void GameRenderer::startGame() {
             });
         }
     }
-    window.add(*grid);
-    window.show_all();
+    window->add(*grid);
+    window->show_all();
 }
 
 void GameRenderer::restart() {
@@ -86,19 +85,14 @@ void GameRenderer::restart() {
         }
     }
 
-    window.remove();
     delete grid;
-    grid = nullptr;
-
+    window->remove();
     buttons.clear();
-    game = nullptr;
 
     start();
 }
 
 GameRenderer::~GameRenderer() {
-    delete game;
-    delete dialog;
     delete grid;
 }
 
@@ -113,8 +107,8 @@ bool GameRenderer::on_draw(const Cairo::RefPtr<Cairo::Context>& cr) {
 
     cellWidth = width / numCols;
     cellHeight = height / numRows;
-    window.remove();
-    window.add(*grid);
+    window->remove();
+    window->add(*grid);
     return true;
 }
 
@@ -157,10 +151,10 @@ void GameRenderer::style_button(int x, int y) {
     // 0 bedeutet das keine bombe in der naehe ist zum erleichtern des spiel wir die region aufgedeckt welche auch die bedingung erfuellt
     if (value == 0) {
         checkNeighbors(x, y);
-    } else if (value == game->IS_A_BOMB) {
+    } else if (value == Game::IS_A_BOMB) {
         // laden eines Bomben images
-        Glib::RefPtr<Gdk::Pixbuf> originalPixbuf = Gdk::Pixbuf::create_from_file("./assets/bomb.png");
-        //Glib::RefPtr<Gdk::Pixbuf> originalPixbuf = Gdk::Pixbuf::create_from_file("/mnt/c/Users/meric/CLionProjects/AdvancedCPP/src/assets/bomb.png");
+        //Glib::RefPtr<Gdk::Pixbuf> originalPixbuf = Gdk::Pixbuf::create_from_file("./assets/bomb.png");
+        Glib::RefPtr<Gdk::Pixbuf> originalPixbuf = Gdk::Pixbuf::create_from_file("/mnt/c/Users/meric/CLionProjects/AdvancedCPP/src/assets/bomb.png");
         int width = cellWidth - 10;
         int height = cellHeight - 10;
         Glib::RefPtr<Gdk::Pixbuf> scaledPixbuf = originalPixbuf->scale_simple(width, height, Gdk::INTERP_BILINEAR);
@@ -194,7 +188,7 @@ void GameRenderer::on_left_click(int x, int y) {
 
         // reveale alle Felder in einem 30ms intervall, nativer ansatz mit sleep() ist inkompatibel
         Glib::signal_timeout().connect(sigc::mem_fun(*this, &GameRenderer::reveal_next_cell), 30);
-        
+
         Gtk::Label* status_label = Gtk::manage(new Gtk::Label(game->isWon() ? "You won!" : "Game Over!"));
         std::string status = game->isWon() ? "You won!" : "Game Over!";
         status_label->set_markup("<span font='24' weight='bold'>" + status + "</span>");
@@ -221,9 +215,9 @@ void GameRenderer::on_left_click(int x, int y) {
         Glib::signal_timeout().connect([this, event_box]() -> bool {
             if (this->all_cells_revealed()) {
                 flagRestartOK = true;
-                this->window.remove();
-                this->window.add(*event_box);
-                this->window.show_all_children();
+                this->window->remove();
+                this->window->add(*event_box);
+                this->window->show_all_children();
                 return false;
             }
             return true;
@@ -243,8 +237,8 @@ void GameRenderer::on_right_click(int x, int y) {
         button->get_style_context()->add_provider(css_provider, GTK_STYLE_PROVIDER_PRIORITY_USER);
         return;
     }
-    //Glib::RefPtr<Gdk::Pixbuf> originalPixbuf = Gdk::Pixbuf::create_from_file("/mnt/c/Users/meric/CLionProjects/AdvancedCPP/src/assets/flag.png");
-    Glib::RefPtr<Gdk::Pixbuf> originalPixbuf = Gdk::Pixbuf::create_from_file("./assets/flag.png");
+    Glib::RefPtr<Gdk::Pixbuf> originalPixbuf = Gdk::Pixbuf::create_from_file("/mnt/c/Users/meric/CLionProjects/AdvancedCPP/src/assets/flag.png");
+    //Glib::RefPtr<Gdk::Pixbuf> originalPixbuf = Gdk::Pixbuf::create_from_file("./assets/flag.png");
     int width = cellWidth - 10;
     int height = cellHeight - 10;
     Glib::RefPtr<Gdk::Pixbuf> scaledPixbuf = originalPixbuf->scale_simple(width, height, Gdk::INTERP_BILINEAR);
@@ -272,7 +266,6 @@ bool GameRenderer::on_key_press_event(GdkEventKey* event) {
         return true;
     }
     if (event->keyval == GDK_KEY_Escape) {
-        // Do nothing on Escape key
         return true;
     }
     return false;

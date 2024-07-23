@@ -15,10 +15,10 @@ public:
     bool isRevealed(int x, int y);
     [[nodiscard]] bool isGameOver() const noexcept { return gameOver; }
 
-    const std::vector<std::vector<int>>& getBoard() const noexcept { return board; }
+    [[nodiscard]] const std::vector<std::vector<int>>& getBoard() const noexcept { return board; }
 
-    int getWidth() const noexcept { return width; }
-    int getHeight() const noexcept { return height; }
+    [[nodiscard]] int getWidth() const noexcept { return width; }
+    [[nodiscard]] int getHeight() const noexcept { return height; }
 
 protected:
     void placeMines();

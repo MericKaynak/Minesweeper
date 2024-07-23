@@ -10,7 +10,7 @@
 2. Game* => `std::unique_ptr<Game>`;
 3. game->IS_A_BOMB => Game::IS_A_BOMB
 4. Window& window => `std::shared_ptr<Gtk::Window> window;`
-5. Game.hpp angepasst in bezu aug nodiscard
+5. Game.hpp angepasst in bezug auf nodiscard
 
 
 ### Anmerkungen

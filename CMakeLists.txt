@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.22)
-project(AdvancedC)
+project(minesweeper)
 
 # Set C++ Standard to C++23
 set(CMAKE_CXX_STANDARD 23)
@@ -21,7 +21,7 @@ set(SOURCES
 )
 
 # Add executable
-add_executable(AdvancedC ${SOURCES})
+add_executable(minesweeper ${SOURCES})
 
 # Link GTKmm libraries
-target_link_libraries(AdvancedC ${GTKMM_LIBRARIES})
+target_link_libraries(minesweeper ${GTKMM_LIBRARIES})

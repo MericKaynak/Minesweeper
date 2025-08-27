@@ -43,5 +43,5 @@ make
 Schliesslich das Spiel starten:
 
 ```bash
-./AdvancedC
+./minesweeper
 ```

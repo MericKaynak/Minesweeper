@@ -5,7 +5,7 @@
 1. Ueberpruefen Sie ob die Pfade der Images richtig sind in GameRenderer line 156 und 235
 2. Das Menu kann jederzeit neu aufgerufen werden mit R
 3. Wurde auf linux only programmiert und ausgefuehrt bzw. wsl
-4. Installieren Sie das libgtkmm-3.0-dev paket fuer ihre Distribution
+4. Installieren Sie das `libgtkmm-3.0-dev` paket fuer ihre Distribution und stellen Sie sicher, dass auch `cmake` installiert ist
 
 ## Geaenderte Punkte nach Feeback
 
